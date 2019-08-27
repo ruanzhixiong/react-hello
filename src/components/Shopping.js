@@ -5,6 +5,15 @@ class ShoppingList extends Component {
         this.state = {
             date: new Date()
         }
+        // 为了在回调中使用 `this`，这个绑定是必不可少的
+        this.handleClick = this.handleClick.bind(this);
+    }
+    // 事件处理
+    handleClick(e) {
+        console.log(e);
+        this.setState(state => (
+            { isToggleOn: !state.isToggleOn }
+        ));
     }
     componentDidMount() {
         this.timerID = setInterval(
@@ -24,8 +33,10 @@ class ShoppingList extends Component {
     render() {
         return (
             <div className="shopping-list">
-                <h1>Shopping List for {this.props.name}</h1>
+                <h3 onClick={this.handleClick}>Shopping List for {this.props.name}</h3>
                 <p>{this.state.date.toLocaleTimeString()}</p>
+                {/* 嵌套使用 */}
+                {this.props.children}
             </div>
         );
     }
